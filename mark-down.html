@@ -29,6 +29,9 @@ a shadow root.
     :host {
       display: block;
     }
+    :host pre{
+      background:#f7f7f7 !important;
+    }
   </style>
 
   <template>
@@ -85,7 +88,6 @@ a shadow root.
       }, null);
 
       return lines.map(function(l) { return l.substr(indent); }).join('\n');
-      return str.replace(/^[^\S\n]+/gm, '');
     },
 
     _markdown: function(str) {
@@ -94,7 +96,7 @@ a shadow root.
       return marked(this._unindent(str), {
         highlight: function(code) {
           return Prism.highlight(code, this._detectLanguage(code));
-        }.bind(this),
+        }.bind(this)
       });
     },
 
