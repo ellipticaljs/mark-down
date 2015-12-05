@@ -4,22 +4,16 @@
 
 <!--
 Web Component wrapper for Markdown using Polymer.
-
 Example:
-
     <mark-down text="Hello, **world!**"></mark-down>
-
     or alternatively:
-
     <mark-down>
       Hello, **world!**
     </mark-down>
-
 Please be aware that you cannot safely change the text content of a `mark-down`
 element after it has been created. This is due to Polymer 1.0's shady DOM.
 The generated markdown elements may also be in the owning document rather than
 a shadow root.
-
 @element mark-down
 @demo demo/index.html
 -->
@@ -28,10 +22,6 @@ a shadow root.
   <style>
     :host {
       display: block;
-      margin:1.5em 0;
-    }
-    :host pre{
-      background:#f7f7f7 !important;
     }
   </style>
 
@@ -47,18 +37,14 @@ a shadow root.
   }
 </style>
 <script>
-
   Polymer({
-
     is: 'mark-down',
-
     /**
      * The `mark-down-ready` event is fired after the marked-up HTML is
      * inserted into the parent container.
      *
      * @event mark-down-ready
      */
-
     properties: {
       /**
        * A string of markdown that you wish to see rendered.
@@ -73,12 +59,26 @@ a shadow root.
         }
       }
     },
-
     _textChanged: function() {
-      this.$.markdown.innerHTML = this._markdown(this.text);
+      var text=this._markdown(this.text);
+      text=this._parseText(text);
+      this.$.markdown.innerHTML = text;
       this.fire('mark-down-ready');
     },
-
+    //for SPAs markdown may not attribute pre,code tags correctly
+    _parseText:function(text){
+      if(!text.indexOf('<pre>')===0) return text;
+      var type=this._getMarkupType(text);
+      var cls='class=language-' + type;
+      text=text.replace('<pre>','<pre ' + cls + '>');
+      text=text.replace('lang-' + type,'language-' + type);
+      return text;
+    },
+    _getMarkupType:function(text){
+      var markupType=text.match(/<code class="lang-([^"]*)">/);
+      if(markupType && markupType.length) return markupType[1];
+      else return "js";
+    },
     // Find the shortest indented line (ignoring blank lines), and remove all
     // indentation up to that point.
     _unindent: function(str) {
@@ -87,25 +87,20 @@ a shadow root.
       var lines  = str.replace(/\t/g, '  ').split('\n');
       var indent = lines.reduce(function(prev, line) {
         if (/^\s*$/.test(line)) return prev;  // Completely ignore blank lines.
-
         var lineIndent = line.match(/^(\s*)/)[0].length;
         if (prev === null) return lineIndent;
         return lineIndent < prev ? lineIndent : prev;
       }, null);
-
       return lines.map(function(l) { return l.substr(indent); }).join('\n');
     },
-
     _markdown: function(str) {
       if (!str) return '';
-
       return marked(this._unindent(str), {
         highlight: function(code) {
           return Prism.highlight(code, this._detectLanguage(code));
         }.bind(this)
       });
     },
-
     // Prism doesn't do language detection, so we perform a verrrry simple
     // heuristic ourselves.
     _detectLanguage: function(code) {
@@ -115,7 +110,5 @@ a shadow root.
         return Prism.languages.javascript;
       }
     }
-
   });
-
 </script>

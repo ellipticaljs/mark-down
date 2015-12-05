@@ -1,8 +1,9 @@
 {
   "name": "mark-down",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "authors": [
-    "Rob Dodson <robdodson@google.com>"
+    "Rob Dodson <robdodson@google.com>",
+    "S. Francis <sfrancis@misinteractive.com>"
   ],
   "description": "A polymer element for rendering markdown",
   "main": [
