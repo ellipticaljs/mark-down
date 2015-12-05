@@ -28,6 +28,7 @@ a shadow root.
   <style>
     :host {
       display: block;
+      margin:1.5em 0;
     }
     :host pre{
       background:#f7f7f7 !important;
@@ -39,7 +40,12 @@ a shadow root.
   </template>
 
 </dom-module>
-
+<style>
+  mark-down pre{
+    background:#f7f7f7 !important;
+    margin:0 !important;
+  }
+</style>
 <script>
 
   Polymer({

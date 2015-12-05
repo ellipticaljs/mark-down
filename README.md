@@ -10,10 +10,10 @@ See the [component page](http://robdodson.github.io/mark-down) for more informat
 Install the component using [Bower](http://bower.io/):
 
 ```sh
-$ bower install robdodson/mark-down --save
+$ bower install elliptical-mark-down --save
 ```
 
-Or [download as ZIP](https://github.com/robdodson/mark-down/archive/master.zip).
+
 
 ## Usage
 
