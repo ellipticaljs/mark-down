@@ -59,6 +59,11 @@ a shadow root.
         }
       }
     },
+
+    ready:function(){
+      this.style.visibility='visible';
+    },
+
     _textChanged: function() {
       var text=this._markdown(this.text);
       text=this._parseText(text);
